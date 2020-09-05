@@ -2,6 +2,7 @@ import textract
 import re
 import regex
 import unicodedata
+#PDF To Text Extraction
 def convert_pdf_to_txt_v2(path):
     try:
         text = textract.process(path)
@@ -14,6 +15,7 @@ def convert_pdf_to_txt_v2(path):
 outputDictionary={}
 claim=convert_pdf_to_txt_v2("/home/ubuntu/environment/Claim.pdf")
 claim=repr(claim)
+#Regular Expressions
 claimUpdated=re.sub(r"\\n\\n",r"\\n",claim)
 
 insuredName=re.search(r"(?<=Name and address of Insured\\n)[A-Za-z ]+",claimUpdated)[0]
@@ -37,6 +39,7 @@ outputDictionary["Employer's Location:"]=employersLocation
 claim=re.search(r"(?<=Medical History).*$",claim)[0]
 claim=re.sub(r"\\x0c\'","",claim)
 
+#Medical History
 diseases=re.findall(r"(?<=\\n)[A-Za-z ]+(?!\\n\d)(?!\\n\\n\d)\b",claim)
 
 claimers=re.findall(r"(?<=\\n)[A-Za-z ]+(?=\\n\\n\d|\\n\d)",claim)
